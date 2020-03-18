@@ -1,9 +1,10 @@
 import os
+import numpy as np
 import pandas as pd
 
 
-def load_clc_db(path):
-    """Load all CLC futures data. Path specifies location of .csv files"""
+def load_clc_db_records(path):
+    """Load all CLC futures data into dict. One entry per asset. Path specifies location of .csv files"""
 
     data = {}
     files = [file for file in os.listdir(path) if '.csv' in file.lower()]
