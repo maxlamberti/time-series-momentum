@@ -3,7 +3,8 @@ import pandas as pd
 from scipy import stats
 
 
-def calc_backtest(daily_return_series, excess_return_series, weights):
+def calc_single_asset_backtest(daily_return_series, excess_return_series, weights):
+    """Backtest a single asset trading strategy."""
 
     # construct backtest dataframe
     daily_return_series = daily_return_series.rename('Returns')
@@ -20,7 +21,7 @@ def calc_backtest(daily_return_series, excess_return_series, weights):
     num_data_total = backtest_series.shape[0]
     mean_ret_annual = ((1 + backtest_series['Strategy_Returns']).prod()) ** (num_data_per_year / num_data_total) - 1
     mean_exc_ret_annual = ((1 + backtest_series['Strategy_Excess_Returns']).prod()) ** (
-                num_data_per_year / num_data_total) - 1
+            num_data_per_year / num_data_total) - 1
     vola_annual = np.std(backtest_series['Strategy_Returns']) * np.sqrt(num_data_per_year)
     sharpe = mean_exc_ret_annual / vola_annual
 
