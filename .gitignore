@@ -2,6 +2,8 @@
 clc
 .DS_Store
 .idea
+data/AQR*
+models
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
