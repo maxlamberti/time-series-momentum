@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 class MultiLayerPerceptron(BaseEstimator):
 
     def __init__(self, num_features, hidden_layers=1, hidden_neurons=5, hidden_dropout=0.2, input_dropout=0,
-                 input_activation='relu', hidden_activation='relu', optimizer='adam', kernel_initializer='normal',
+                 hidden_activation='relu', optimizer='adam', kernel_initializer='normal',
                  bias_initializer='normal', output_activation='linear', output_len=1, loss='mse',
                  normalize_features=False):
 
@@ -17,7 +17,7 @@ class MultiLayerPerceptron(BaseEstimator):
             hidden_neurons = [int(hidden_neurons) for _ in range(int(hidden_layers))]
 
         # define and build model
-        self.model_template = self._build_model(num_features, input_activation, input_dropout, hidden_neurons,
+        self.model_template = self._build_model(num_features, input_dropout, hidden_neurons,
                                                 hidden_activation, hidden_dropout, kernel_initializer,
                                                 bias_initializer, output_len, output_activation)
 
@@ -78,17 +78,14 @@ class MultiLayerPerceptron(BaseEstimator):
         self.model.save(filepath)
 
     @staticmethod
-    def _build_model(num_features, input_activation, input_dropout, hidden_neurons, hidden_activation, hidden_dropout,
+    def _build_model(num_features, input_dropout, hidden_neurons, hidden_activation, hidden_dropout,
                kernel_initializer, bias_initializer, output_len, output_activation):
         """Construct a generic MLP model."""
 
         model = Sequential()
 
-        # input layer
-        model.add(Dense(int(num_features), activation=input_activation, kernel_initializer=kernel_initializer,
-                        bias_initializer=bias_initializer))  # input_shape=(input_len,)
-        if input_dropout > 0:
-            model.add(Dropout(input_dropout))
+        # visible layer dropout
+        model.add(Dropout(input_dropout, input_shape=(int(num_features),)))
 
         # hidden layers
         for num_neurons in hidden_neurons:
