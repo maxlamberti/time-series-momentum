@@ -1,4 +1,4 @@
-# Deep Momentum Networks for Time Series Momentum Strategies
+# Time Series Momentum: Deep Momentum Networks
 
 ## Overview
 
